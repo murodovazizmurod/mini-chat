@@ -3,22 +3,10 @@ from flask import Flask, request, abort, send_from_directory
 import datetime as dt
 import time
 
-import re
-import random
 
-import logging
-
-# add filemode="w" to overwrite
-# logging.basicConfig(filename="server.log", level=logging.INFO)
-
-# logging.debug("This is a debug message")
-# logging.info("Informational message")
-# logging.error("An error has happened!")
-
-servername = "qt-chat-server"
+servername = "Chat Server"
 starttime = dt.datetime.now()
 
-# По умолчанию бот активен, можно поставить False тогда он включится только по команде
 
 bot_active = True
 
@@ -64,7 +52,6 @@ def status_view():
             'time': time.time(),
             'uptime': str(dt.datetime.now() - starttime),
             'client-ip': request.remote_addr,
-            'clients-ip-served': len(known_ip),
             'users-registered': len(users),
             'messages-count': len(messages)
             }
@@ -84,9 +71,6 @@ def send_view():
     else:
         users[name] = password
     messages.append({'name': name, 'time': time.time(), 'text': text})
-    reply = chat_bot(text)
-    if reply != '':
-        messages.append({'name': servername, 'time': time.time(), 'text': reply})
 
     return {'ok': True}
 
